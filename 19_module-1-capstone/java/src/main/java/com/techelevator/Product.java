@@ -9,7 +9,7 @@ public class Product {
 	private String productType;
 	private String productName;
 	private BigDecimal productPrice;
-	private int qty = 0;
+	private int qty;
 	
 	//CTOR****************************************************************************************************
 	public Product() {
@@ -50,6 +50,14 @@ public class Product {
 
 	public void setProductPrice(BigDecimal productPrice) {
 		this.productPrice = productPrice;
+	}
+
+	public int getQty() {
+		return qty;
+	}
+
+	public void setQty(int qty) {
+		this.qty = qty;
 	}
 
 	@Override

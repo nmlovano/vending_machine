@@ -16,18 +16,7 @@ public class VendingMachine {
 	//this should be where we take a product and stock it in the machine
 
 	//Data Members********************************************************************************************
-	String[][] itemArray = new String[4][4];
-	
-	/*
-	 * 
-	 *  0    1    2    3
-	 *  
-	 * [a1] [a2] [a3] [a4],	0   
-	 * [b1] [b2] [b3] [b4],	1
-	 * [c1] [c2] [c3] [c4],	2
-	 * [d1] [d2] [d3] [d4],	3
-	 */
-	
+
 	private Map<String, Product> location = new TreeMap<String,Product>();
 	
 	//CTOR****************************************************************************************************
