@@ -9,6 +9,7 @@ public class Product {
 	private String productType;
 	private String productName;
 	private BigDecimal productPrice;
+	private int qty = 0;
 	
 	//CTOR****************************************************************************************************
 	public Product() {
@@ -21,6 +22,8 @@ public class Product {
 		this.productType = productType;
 		this.productName = productName;
 		this.productPrice = productPrice;
+		qty = 5;
+		
 	}
 
 	//Get/Set*************************************************************************************************
@@ -51,7 +54,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return productName + " $" + productPrice;
+		return productName + " $" + productPrice + " (" + qty + ")";
 	}
 	
 	

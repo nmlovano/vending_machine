@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.List;
 
 public class VendingMachine {
@@ -27,13 +28,11 @@ public class VendingMachine {
 	 * [d1] [d2] [d3] [d4],	3
 	 */
 	
-	private Map<String, Product> location = new HashMap<String,Product>();
-	//private List<Product> stock = new ArrayList<Product>();
-	
+	private Map<String, Product> location = new TreeMap<String,Product>();
 	
 	//CTOR****************************************************************************************************
 	public VendingMachine() {
-		File inputFile = new File("vendingmachine9.txt");
+		File inputFile = new File("vendingmachine.txt");
 		
 		try(Scanner fileScanner  = new Scanner(inputFile)) {
 			if(inputFile.exists()) {
