@@ -9,6 +9,8 @@ package com.techelevator;
 import com.techelevator.view.Menu;
 
 public class VendingMachineCLI {
+	
+	VendingMachine vendOMatic = new VendingMachine();
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE      = "Purchase";
@@ -50,6 +52,7 @@ public class VendingMachineCLI {
 				case MAIN_MENU_OPTION_EXIT:
 					endMethodProcessing();    // Invoke method to perform end of method processing
 					shouldProcess = false;    // Set variable to end loop
+					System.out.println("Thanks for stopping by. Enjoy your snack!");
 					break;                    // Exit switch statement
 			}	
 		}
@@ -58,8 +61,8 @@ public class VendingMachineCLI {
 /********************************************************************************************************
  * Methods used to perform processing
  ********************************************************************************************************/
-	public static void displayItems() {      // static attribute used as method is not associated with specific object instance
-		// Code to display items in Vending Machine
+	public void displayItems() {      // static attribute used as method is not associated with specific object instance
+		vendOMatic.displayStock();
 	}
 	
 	public static void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
