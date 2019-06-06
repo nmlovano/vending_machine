@@ -62,7 +62,24 @@ public class VendingMachine {
 			}
 		}
 				
-				
+		public void productSelector() {
+			Scanner userInput = new Scanner(System.in);
+			
+			System.out.println("Select a product.");
+			String value = userInput.nextLine();
+			
+			if(!location.containsKey(value)){
+				System.out.println("Invalid selection");
+			} else if(location.containsKey(value) && location.get(value).getQty() > 0) {
+				location.get(value).setQty(location.get(value).getQty()-1);
+				System.out.println("Product selected is: " + location.get(value).getProductName());
+				System.out.println("Product price is: " + location.get(value).getProductPrice());
+				System.out.println("New qty is: " + location.get(value).getQty());
+				} else if (location.get(value).getQty() == 0) {
+					System.out.println("Item out of stock");
+				} 
+			
+		}
 			
 			
 		}

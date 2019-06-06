@@ -1,4 +1,5 @@
 package com.techelevator;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 /**************************************************************************************************************************
@@ -77,9 +78,13 @@ public class VendingMachineCLI {
 		vendOMatic.displayStock();
 	}
 	
-	public static void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
+	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
 
+		Buy purchase = new Buy();
+		
 		boolean done = false;
+		
+		BigDecimal currentBalance = new BigDecimal("0.00");
 		
 		do {
 			System.out.println("Please pick an option below");
@@ -91,11 +96,17 @@ public class VendingMachineCLI {
 			String value = userInput.nextLine();
 			
 			if(value.equals("1")) {
-				//do feedMoney method
-				System.out.println("1");
+				currentBalance = purchase.takeMoney();
+				
+				
 			} else if (value.equals("2")) {
-				//do selectMoney product
-				System.out.println("2");
+				//figure out how to do the $ transaction and the qty transaction.
+				
+				vendOMatic.productSelector();
+				vendOMatic.productSelector()
+				purchase.getCurrentBalance();
+				
+				
 			} else if (value.equals("3")) {
 				done = true;
 				System.out.println("3");
