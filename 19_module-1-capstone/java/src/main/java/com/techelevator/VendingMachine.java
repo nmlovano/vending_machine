@@ -22,13 +22,15 @@ public class VendingMachine {
 	private BigDecimal currentBalance;
 	private List<BigDecimal> acceptedValues = new ArrayList<BigDecimal>();
 	private List <Product> purchasedItems = new ArrayList<Product>();
-	BigDecimal currentSelection;
+	private BigDecimal currentSelection;
+	private BigDecimal initialBalance;
 	
 	//CTOR****************************************************************************************************
 	public VendingMachine() {
 		File inputFile = new File("vendingmachine.txt");
 		 currentSelection = new BigDecimal("0.00");
 		 currentBalance = new BigDecimal("0.00");
+		 initialBalance = new BigDecimal("0.00");
 		 sounds.put("Chip", "Crunch Crunch, Yum!");
 		 sounds.put("Candy", "Munch Munch, Yum!");
 		 sounds.put("Drink", "Glug Glug, Yum!");
@@ -83,10 +85,17 @@ public class VendingMachine {
 		this.purchasedItems = purchasedItems;
 	}
 	
-	
-	//Methods************************************************************************************************
+	public BigDecimal getInitialBalance() {
+		return initialBalance;
+	}
 
+	public void setInitialBalance(BigDecimal initialBalance) {
+		this.initialBalance = initialBalance;
+	}
 	
+	
+	//Methods***********************************************************************************************
+
 
 		public void displayStock() {
 			
@@ -130,9 +139,10 @@ public class VendingMachine {
 			
 			Scanner userInput = new Scanner(System.in);
 			boolean done = false;
+			Log auditForm = new Log();
 			
 			do {
-			
+			initialBalance = getCurrentBalance();
 			System.out.println("Your current balance is : " + currentBalance);
 			System.out.println("To increase balance, add money in the following Denoimations:");
 			System.out.println("1.00, 2.00, 5.00, 10.00");
@@ -146,7 +156,7 @@ public class VendingMachine {
 				done = true;
 			} else if(value.contains("1.00") || value.contains("2.00") || value.contains("5.00") || value.contains("10.00")){
 				currentBalance = currentBalance.add(new BigDecimal(value));
-				
+				auditForm.logMaker("feed money", getInitialBalance(), getCurrentBalance());
 			} else {
 				System.out.println("Invalid input, try again.");
 			}
@@ -157,7 +167,7 @@ public class VendingMachine {
 		
 		public void moneyTransactComplete() {
 			
-			
+			BigDecimal initialBalance = getCurrentBalance();
 			int quarters, dimes, nickels;
 			
 			//change = getCurrentBalance().doubleValue();
@@ -166,12 +176,12 @@ public class VendingMachine {
 			System.out.println ("Here is your change: \n");
 			double coins = getCurrentBalance().doubleValue();
 			
-			quarters = (int) (getCurrentBalance().doubleValue()/.25);
-			coins %= .25;
-			dimes = (int) (coins/.10);
-			coins %= .10;
-			nickels = (int) (coins/.05);
-			coins %= .05;
+			quarters = (int) (getCurrentBalance().doubleValue()/.25 + .001);
+			coins %= .25; 
+			dimes = (int) (coins/.10 + .001);
+			coins %= .10; 
+			nickels = (int) (coins/.05 + .001);
+			coins %= .05; 
 			
 			System.out.println ("Quarters = " + quarters + "\nDimes = " + dimes + "\nNickels = " + nickels);
 			setCurrentBalance(new BigDecimal ("0.00"));
@@ -182,7 +192,7 @@ public class VendingMachine {
 			for (Product item : purchasedItems) {
 				System.out.println(sounds.get(item.getProductType()));
 			}
-			
+			purchasedItems.clear();
 					
 		}
 			

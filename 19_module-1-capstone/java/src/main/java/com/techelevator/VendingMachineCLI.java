@@ -85,6 +85,8 @@ public class VendingMachineCLI {
 		BigDecimal currentBalance = new BigDecimal("0.00");
 		
 		do {
+
+			
 			System.out.println("Please pick an option below");
 			System.out.println("(1) Feed Money");
 			System.out.println("(2) Select Product");
@@ -97,10 +99,13 @@ public class VendingMachineCLI {
 				currentBalance = vendOMatic.takeMoney();
 				
 				
+				
+				
 			} else if (value.equals("2")) {
 				//figure out how to do the $ transaction and the qty transaction.
 
 				vendOMatic.productSelector();
+				
 //				
 //				if(vendOMatic.getCurrentSelection().doubleValue() < vendOMatic.getCurrentBalance().doubleValue()) {
 //
@@ -114,10 +119,10 @@ public class VendingMachineCLI {
 			} else if (value.equals("3")) {
 				
 				vendOMatic.moneyTransactComplete();
-				System.out.println("Kepp the change, you filthy animal! \n");
 				System.out.println("Please enjoy your snack(s)!!! \n");
 				vendOMatic.makeSound();
 				done = true;
+
 				
 			} else {
 				System.out.println("Invalid input");
