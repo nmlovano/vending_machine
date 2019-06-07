@@ -138,16 +138,30 @@ public class VendingMachine {
 			return currentBalance;
 		}
 		
-		public void moneyTransact() {
+		public void moneyTransactComplete() {
 			
 			
+			int quarters, dimes, nickels;
 			
-//			location.get(selection).setQty(location.get(selection).getQty()-1);
-//			System.out.println("Product selected is: " + location.get(selection).getProductName());
-//			System.out.println("Product price is: " + location.get(selection).getProductPrice());
-//			System.out.println("New qty is: " + location.get(selection).getQty());
+			//change = getCurrentBalance().doubleValue();
+			
+			System.out.println("Current balance is: " + getCurrentBalance() + "\n");
+			System.out.println ("Here is your change: \n");
+			double coins = getCurrentBalance().doubleValue();
+			
+			quarters = (int) (getCurrentBalance().doubleValue()/.25);
+			coins %= .25;
+			dimes = (int) (coins/.10);
+			coins %= .10;
+			nickels = (int) (coins/.05);
+			coins %= .05;
+			
+			System.out.println ("Quarters = " + quarters + "\nDimes = " + dimes + "\nNickels = " + nickels);
+			setCurrentBalance(new BigDecimal ("0.00"));
 			
 		}
+		
+		public void 
 			
 			
 		}

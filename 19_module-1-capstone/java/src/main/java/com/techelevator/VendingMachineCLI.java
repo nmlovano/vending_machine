@@ -112,14 +112,17 @@ public class VendingMachineCLI {
 //				}
 //				
 			} else if (value.equals("3")) {
+				
+				vendOMatic.moneyTransactComplete();
+				
 				done = true;
-				System.out.println("3");
+				
 			} else {
 				System.out.println("Invalid input");
 			}
 			
 		} while(done == false);
-
+		
 
 	}
 	
