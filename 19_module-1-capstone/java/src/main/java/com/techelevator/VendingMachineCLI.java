@@ -101,16 +101,16 @@ public class VendingMachineCLI {
 				//figure out how to do the $ transaction and the qty transaction.
 
 				vendOMatic.productSelector();
-				
-				if(vendOMatic.getCurrentSelection().doubleValue() < vendOMatic.getCurrentBalance().doubleValue()) {
-
-					vendOMatic.moneyTransact();
-					System.out.println("Remaining balance: $"+ vendOMatic.getCurrentBalance());
-					
-				} else if(vendOMatic.getCurrentSelection().doubleValue() > vendOMatic.getCurrentBalance().doubleValue()) {
-					System.out.println("Not enough $. Please make another selection or add more money.");
-				}
-				
+//				
+//				if(vendOMatic.getCurrentSelection().doubleValue() < vendOMatic.getCurrentBalance().doubleValue()) {
+//
+//					vendOMatic.moneyTransact();
+//					System.out.println("Remaining balance: $"+ vendOMatic.getCurrentBalance());
+//					
+//				} else if(vendOMatic.getCurrentSelection().doubleValue() > vendOMatic.getCurrentBalance().doubleValue()) {
+//					System.out.println("Not enough $. Please make another selection or add more money.");
+//				}
+//				
 			} else if (value.equals("3")) {
 				done = true;
 				System.out.println("3");

@@ -83,7 +83,7 @@ public class VendingMachine {
 			}
 		}
 
-		public BigDecimal productSelector() {
+		public void productSelector() {
 			
 			Scanner userInput = new Scanner(System.in);
 			boolean done = false;
@@ -93,14 +93,20 @@ public class VendingMachine {
 			
 			if(!location.containsKey(selection)){
 				System.out.println("Invalid selection");
-			} else if(location.containsKey(selection) && location.get(selection).getQty() > 0) {
-
-				currentSelection = location.get(selection).getProductPrice();
-				return currentSelection;
-				} else if (location.get(selection).getQty() == 0) {
-					System.out.println("Item out of stock");
+			} else if (location.get(selection).getProductPrice().doubleValue() > getCurrentBalance().doubleValue()) {
+				System.out.print("Not enough $. Please make another selection or add more money.");
+			}  else if (location.get(selection).getQty() == 0) {
+				System.out.println("Item out of stock");
+			} else {
+				currentBalance = currentBalance.subtract(location.get(selection).getProductPrice());
+				System.out.println("Remaining balance: $"+ getCurrentBalance());
+				location.get(selection).setQty(location.get(selection).getQty()-1);
+				System.out.println("New qty is: " + location.get(selection).getQty());
+				
+				
+				
 				} 
-			return currentSelection;
+			
 		}
 		
 		public BigDecimal takeMoney() {
@@ -134,7 +140,7 @@ public class VendingMachine {
 		
 		public void moneyTransact() {
 			
-			currentBalance = currentBalance.subtract(currentSelection);
+			
 			
 //			location.get(selection).setQty(location.get(selection).getQty()-1);
 //			System.out.println("Product selected is: " + location.get(selection).getProductName());
