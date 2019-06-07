@@ -18,10 +18,15 @@ public class VendingMachine {
 	//Data Members********************************************************************************************
 
 	private Map<String, Product> location = new TreeMap<String,Product>();
+	private BigDecimal currentBalance;
+	private List<BigDecimal> acceptedValues = new ArrayList<BigDecimal>();
+	BigDecimal currentSelection;
 	
 	//CTOR****************************************************************************************************
 	public VendingMachine() {
 		File inputFile = new File("vendingmachine.txt");
+		 currentSelection = new BigDecimal("0.00");
+		 currentBalance = new BigDecimal("0.00");
 		
 		try(Scanner fileScanner  = new Scanner(inputFile)) {
 			if(inputFile.exists()) {
@@ -47,9 +52,25 @@ public class VendingMachine {
 	
 	//Get/Set*************************************************************************************************
 	
+	public BigDecimal getCurrentBalance() {
+		return currentBalance;
+	}
+
+	public void setCurrentBalance(BigDecimal currentBalance) {
+		this.currentBalance = currentBalance;
+	}
+	
+	public BigDecimal getCurrentSelection() {
+		return currentSelection;
+	}
+
+	public void setCurrentSelection(BigDecimal currentSelection) {
+		this.currentSelection = currentSelection;
+	}
 	
 	
-	//Methods*************************************************************************************************
+	
+	//Methods************************************************************************************************
 
 		public void displayStock() {
 			
@@ -61,23 +82,64 @@ public class VendingMachine {
 				System.out.println(item + " " + location.get(item));
 			}
 		}
-				
-		public void productSelector() {
+
+		public BigDecimal productSelector() {
+			
 			Scanner userInput = new Scanner(System.in);
+			boolean done = false;
 			
 			System.out.println("Select a product.");
-			String value = userInput.nextLine();
+			String selection = userInput.nextLine();
 			
-			if(!location.containsKey(value)){
+			if(!location.containsKey(selection)){
 				System.out.println("Invalid selection");
-			} else if(location.containsKey(value) && location.get(value).getQty() > 0) {
-				location.get(value).setQty(location.get(value).getQty()-1);
-				System.out.println("Product selected is: " + location.get(value).getProductName());
-				System.out.println("Product price is: " + location.get(value).getProductPrice());
-				System.out.println("New qty is: " + location.get(value).getQty());
-				} else if (location.get(value).getQty() == 0) {
+			} else if(location.containsKey(selection) && location.get(selection).getQty() > 0) {
+
+				currentSelection = location.get(selection).getProductPrice();
+				return currentSelection;
+				} else if (location.get(selection).getQty() == 0) {
 					System.out.println("Item out of stock");
 				} 
+			return currentSelection;
+		}
+		
+		public BigDecimal takeMoney() {
+			
+			Scanner userInput = new Scanner(System.in);
+			boolean done = false;
+			
+			do {
+			
+			System.out.println("Your current balance is : " + currentBalance);
+			System.out.println("To increase balance, add money in the following Denoimations:");
+			System.out.println("1.00, 2.00, 5.00, 10.00");
+			System.out.println("When finished select (exit)");
+			
+			String value = userInput.nextLine();
+			
+			System.out.println(value);
+			
+			if (value.contains("exit")) {
+				done = true;
+			} else if(value.contains("1.00") || value.contains("2.00") || value.contains("5.00") || value.contains("10.00")){
+				currentBalance = currentBalance.add(new BigDecimal(value));
+				
+			} else {
+				System.out.println("Invalid input, try again.");
+			}
+			} while(done == false);
+			
+			return currentBalance;
+		}
+		
+		public void moneyTransact() {
+			
+			currentBalance = currentBalance.subtract(currentSelection);
+			
+//			location.get(selection).setQty(location.get(selection).getQty()-1);
+//			System.out.println("Product selected is: " + location.get(selection).getProductName());
+//			System.out.println("Product price is: " + location.get(selection).getProductPrice());
+//			System.out.println("New qty is: " + location.get(selection).getQty());
 			
 		}
 			

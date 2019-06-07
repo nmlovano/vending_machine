@@ -79,8 +79,6 @@ public class VendingMachineCLI {
 	}
 	
 	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
-
-		Buy purchase = new Buy();
 		
 		boolean done = false;
 		
@@ -96,16 +94,22 @@ public class VendingMachineCLI {
 			String value = userInput.nextLine();
 			
 			if(value.equals("1")) {
-				currentBalance = purchase.takeMoney();
+				currentBalance = vendOMatic.takeMoney();
 				
 				
 			} else if (value.equals("2")) {
 				//figure out how to do the $ transaction and the qty transaction.
-				
+
 				vendOMatic.productSelector();
-				vendOMatic.productSelector()
-				purchase.getCurrentBalance();
 				
+				if(vendOMatic.getCurrentSelection().doubleValue() < vendOMatic.getCurrentBalance().doubleValue()) {
+
+					vendOMatic.moneyTransact();
+					System.out.println("Remaining balance: $"+ vendOMatic.getCurrentBalance());
+					
+				} else if(vendOMatic.getCurrentSelection().doubleValue() > vendOMatic.getCurrentBalance().doubleValue()) {
+					System.out.println("Not enough $. Please make another selection or add more money.");
+				}
 				
 			} else if (value.equals("3")) {
 				done = true;
@@ -115,12 +119,7 @@ public class VendingMachineCLI {
 			}
 			
 		} while(done == false);
-//		System.out.println
-//		
-//		//pick 1,2,3
-//		if1 implement 1 stuff/method until done, return back to pick
-//				if2 implement 2 stuff/method until done
-//				if3, move to end method
+
 
 	}
 	

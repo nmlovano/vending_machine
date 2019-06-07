@@ -62,7 +62,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return productName + " $" + productPrice + " (" + qty + ")";
+		return "(Qty. " + qty + ") $" + productPrice + " " + productName;
 	}
 	
 	
