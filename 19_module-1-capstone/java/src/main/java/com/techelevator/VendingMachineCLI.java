@@ -114,7 +114,9 @@ public class VendingMachineCLI {
 			} else if (value.equals("3")) {
 				
 				vendOMatic.moneyTransactComplete();
-				
+				System.out.println("Kepp the change, you filthy animal! \n");
+				System.out.println("Please enjoy your snack(s)!!! \n");
+				vendOMatic.makeSound();
 				done = true;
 				
 			} else {

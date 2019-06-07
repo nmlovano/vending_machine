@@ -17,9 +17,11 @@ public class VendingMachine {
 
 	//Data Members********************************************************************************************
 
-	private Map<String, Product> location = new TreeMap<String,Product>();
+	private Map<String, Product> location = new TreeMap<String, Product>();
+	private Map<String, String> sounds = new HashMap<String, String>();
 	private BigDecimal currentBalance;
 	private List<BigDecimal> acceptedValues = new ArrayList<BigDecimal>();
+	private List <Product> purchasedItems = new ArrayList<Product>();
 	BigDecimal currentSelection;
 	
 	//CTOR****************************************************************************************************
@@ -27,6 +29,11 @@ public class VendingMachine {
 		File inputFile = new File("vendingmachine.txt");
 		 currentSelection = new BigDecimal("0.00");
 		 currentBalance = new BigDecimal("0.00");
+		 sounds.put("Chip", "Crunch Crunch, Yum!");
+		 sounds.put("Candy", "Munch Munch, Yum!");
+		 sounds.put("Drink", "Glug Glug, Yum!");
+		 sounds.put("Gum", "Chew Chew, Yum!");
+		 
 		
 		try(Scanner fileScanner  = new Scanner(inputFile)) {
 			if(inputFile.exists()) {
@@ -68,9 +75,18 @@ public class VendingMachine {
 		this.currentSelection = currentSelection;
 	}
 	
+	public List<Product> getPurchasedItems() {
+		return purchasedItems;
+	}
+
+	public void setPurchasedItems(List<Product> purchasedItems) {
+		this.purchasedItems = purchasedItems;
+	}
 	
 	
 	//Methods************************************************************************************************
+
+	
 
 		public void displayStock() {
 			
@@ -101,6 +117,7 @@ public class VendingMachine {
 				currentBalance = currentBalance.subtract(location.get(selection).getProductPrice());
 				System.out.println("Remaining balance: $"+ getCurrentBalance());
 				location.get(selection).setQty(location.get(selection).getQty()-1);
+				purchasedItems.add(location.get(selection));
 				System.out.println("New qty is: " + location.get(selection).getQty());
 				
 				
@@ -161,7 +178,13 @@ public class VendingMachine {
 			
 		}
 		
-		public void 
+		public void makeSound() {
+			for (Product item : purchasedItems) {
+				System.out.println(sounds.get(item.getProductType()));
+			}
+			
+					
+		}
 			
 			
 		}
