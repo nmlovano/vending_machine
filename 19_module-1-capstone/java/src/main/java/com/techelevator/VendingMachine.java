@@ -2,8 +2,13 @@ package com.techelevator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,6 +29,7 @@ public class VendingMachine {
 	private List <Product> purchasedItems = new ArrayList<Product>();
 	private BigDecimal currentSelection;
 	private BigDecimal initialBalance;
+	private Log auditForm = new Log();
 	
 	//CTOR****************************************************************************************************
 	public VendingMachine() {
@@ -112,6 +118,7 @@ public class VendingMachine {
 			
 			Scanner userInput = new Scanner(System.in);
 			boolean done = false;
+			initialBalance = getCurrentBalance();
 			
 			System.out.println("Select a product.");
 			String selection = userInput.nextLine();
@@ -129,6 +136,8 @@ public class VendingMachine {
 				purchasedItems.add(location.get(selection));
 				System.out.println("New qty is: " + location.get(selection).getQty());
 				
+				auditForm.logMaker(location.get(selection).getProductName() + " " + selection  , getInitialBalance(), getCurrentBalance());
+				
 				
 				
 				} 
@@ -139,10 +148,10 @@ public class VendingMachine {
 			
 			Scanner userInput = new Scanner(System.in);
 			boolean done = false;
-			Log auditForm = new Log();
 			
 			do {
 			initialBalance = getCurrentBalance();
+			System.out.println("************************************************************");
 			System.out.println("Your current balance is : " + currentBalance);
 			System.out.println("To increase balance, add money in the following Denoimations:");
 			System.out.println("1.00, 2.00, 5.00, 10.00");
@@ -150,13 +159,13 @@ public class VendingMachine {
 			
 			String value = userInput.nextLine();
 			
-			System.out.println(value);
+
 			
 			if (value.contains("exit")) {
 				done = true;
 			} else if(value.contains("1.00") || value.contains("2.00") || value.contains("5.00") || value.contains("10.00")){
 				currentBalance = currentBalance.add(new BigDecimal(value));
-				auditForm.logMaker("feed money", getInitialBalance(), getCurrentBalance());
+				auditForm.logMaker("FEED MONEY", getInitialBalance(), getCurrentBalance());
 			} else {
 				System.out.println("Invalid input, try again.");
 			}
@@ -165,15 +174,16 @@ public class VendingMachine {
 			return currentBalance;
 		}
 		
-		public void moneyTransactComplete() {
+		public void moneyTransactComplete() throws FileNotFoundException, IOException {
 			
 			BigDecimal initialBalance = getCurrentBalance();
 			int quarters, dimes, nickels;
+			initialBalance = getCurrentBalance();
 			
 			//change = getCurrentBalance().doubleValue();
 			
 			System.out.println("Current balance is: " + getCurrentBalance() + "\n");
-			System.out.println ("Here is your change: \n");
+			System.out.println ("Here is your change:");
 			double coins = getCurrentBalance().doubleValue();
 			
 			quarters = (int) (getCurrentBalance().doubleValue()/.25 + .001);
@@ -185,6 +195,8 @@ public class VendingMachine {
 			
 			System.out.println ("Quarters = " + quarters + "\nDimes = " + dimes + "\nNickels = " + nickels);
 			setCurrentBalance(new BigDecimal ("0.00"));
+			auditForm.logMaker("MAKE CHANGE", initialBalance, getCurrentBalance());
+			auditForm.printToFile();
 			
 		}
 		
@@ -194,6 +206,52 @@ public class VendingMachine {
 			}
 			purchasedItems.clear();
 					
+		}
+		
+		public void salesReport() throws IOException {
+			Map<String, Integer> salesMap = new TreeMap <String, Integer>();
+			Set<String> salesKey = location.keySet();
+			BigDecimal totalSales = new BigDecimal("0.00");
+			
+			for(String loopValue : salesKey) {
+				
+				String tempName = location.get(loopValue).getProductName();
+				BigDecimal tempPrice = location.get(loopValue).getProductPrice();
+				int tempQty = location.get(loopValue).getQty();
+				int soldQty = 5-tempQty;
+				Date aDate = new Date();
+				String strDateFormat = "MM-dd-yy HH-mm-ss";
+				DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+				String formattedDate = dateFormat.format(aDate);
+
+				
+				if (soldQty > 0) {
+					salesMap.put(tempName, soldQty);
+					for(int i = 0; i < soldQty; i++) {
+					totalSales = totalSales.add(tempPrice);
+					}
+				}
+				
+				File outputFile = new File("SalesReport " + formattedDate + ".txt");
+				outputFile.createNewFile();
+				try(PrintWriter writer = new PrintWriter(outputFile)){
+				
+					Set<String> reportKey = salesMap.keySet();
+					
+				for (String transaction : reportKey) {
+					writer.println(transaction + "|" + salesMap.get(transaction));
+				} 
+				writer.println("**TOTAL SALES** $" + totalSales);
+				writer.close();
+				
+				
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					System.out.println("file not found");
+					e.printStackTrace();
+				}
+				
+			}
 		}
 			
 			

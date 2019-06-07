@@ -1,0 +1,5 @@
+Cola|1
+Moonpie|2
+Potato Crisps|2
+U-Chews|1
+**TOTAL SALES** $11.80

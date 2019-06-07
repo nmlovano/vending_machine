@@ -1,4 +1,6 @@
 package com.techelevator;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -14,6 +16,7 @@ import com.techelevator.view.Menu;
 public class VendingMachineCLI {
 	
 	VendingMachine vendOMatic = new VendingMachine();
+	Log finalLog = new Log();
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE      = "Purchase";
@@ -42,9 +45,10 @@ public class VendingMachineCLI {
 	*  VendingMachineCLI main processing loop
 	*  
 	*  Display the main menu and process option chosen
+	 * @throws FileNotFoundException 
 	***************************************************************************************************************************/
 
-	public void run() {
+	public void run() throws FileNotFoundException , IOException{
 
 		boolean shouldProcess = true;         // Loop control variable
 		
@@ -66,6 +70,7 @@ public class VendingMachineCLI {
 					endMethodProcessing();    // Invoke method to perform end of method processing
 					shouldProcess = false;    // Set variable to end loop
 					System.out.println("Thanks for stopping by. Enjoy your snack!");
+					vendOMatic.salesReport();
 					break;                    // Exit switch statement
 			}	
 		}
@@ -78,7 +83,7 @@ public class VendingMachineCLI {
 		vendOMatic.displayStock();
 	}
 	
-	public void purchaseItems() {	 // static attribute used as method is not associated with specific object instance
+	public void purchaseItems() throws IOException {	 // static attribute used as method is not associated with specific object instance
 		
 		boolean done = false;
 		
@@ -86,7 +91,7 @@ public class VendingMachineCLI {
 		
 		do {
 
-			
+			System.out.println("************************************************************");
 			System.out.println("Please pick an option below");
 			System.out.println("(1) Feed Money");
 			System.out.println("(2) Select Product");
@@ -103,7 +108,7 @@ public class VendingMachineCLI {
 				
 			} else if (value.equals("2")) {
 				//figure out how to do the $ transaction and the qty transaction.
-
+				System.out.println("************************************************************");
 				vendOMatic.productSelector();
 				
 //				
@@ -117,10 +122,13 @@ public class VendingMachineCLI {
 //				}
 //				
 			} else if (value.equals("3")) {
-				
+				System.out.println("************************************************************");
 				vendOMatic.moneyTransactComplete();
-				System.out.println("Please enjoy your snack(s)!!! \n");
+				System.out.println("\nPlease enjoy your snack(s)!!! \n");
+				System.out.println("************************************************************");
 				vendOMatic.makeSound();
+				System.out.println("************************************************************");
+								
 				done = true;
 
 				
