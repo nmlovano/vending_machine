@@ -134,7 +134,8 @@ public class VendingMachine {
 				System.out.println("Remaining balance: $"+ getCurrentBalance());
 				location.get(selection).setQty(location.get(selection).getQty()-1);
 				purchasedItems.add(location.get(selection));
-				System.out.println("New qty is: " + location.get(selection).getQty());
+				System.out.println("New qty in " + selection + " is " + location.get(selection).getQty());
+				System.out.println("Dispensing " + location.get(selection).getProductName() + " from " + selection);
 				
 				auditForm.logMaker(location.get(selection).getProductName() + " " + selection  , getInitialBalance(), getCurrentBalance());
 				
